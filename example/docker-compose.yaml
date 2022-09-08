@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+    BorgServer:
+        image: chrisbesch/docker_borg_server
+        volumes:
+            - "./borg_repo1:/var/lib/borg_server/repos/borg_repo1:ro"
+            - "./authorized_keys:/var/lib/borg_server/authorized_keys:ro"
+        ports:
+            - "22:22"
+
