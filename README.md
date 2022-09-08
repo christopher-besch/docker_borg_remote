@@ -1,1 +1,3 @@
-- `borg extract --rsh 'ssh -i ~/.ssh/chris_1_rsa' root@localhost:/var/lib/borg_server/repos/borg_repo1::test1`
+# docker_borg_remote
+Using Borg and Docker to sync Backups.
+
