@@ -4,8 +4,22 @@ services:
     BorgServer:
         image: chrisbesch/docker_borg_server
         volumes:
-            - "./borg_repo1:/var/lib/borg_server/repos/borg_repo1:ro"
+            # all repos shall be mounted into subdirs of /var/lib/borg_server/repos
+            - "./borg_repo1:/var/lib/borg_server/repos/borg_repo1"
             - "./authorized_keys:/var/lib/borg_server/authorized_keys:ro"
-        ports:
-            - "22:22"
+        networks: ["common"]
+    BorgClient:
+        image: chrisbesch/docker_borg_client
+        volumes:
+            - "./priv_key:/var/lib/borg_client/priv_key:ro"
+        environment:
+            - BORG_SERVER=BorgServer
+            - PORT=22
+            - PASSPHRASE=test_passphrase
+        depends_on:
+            - BorgServer
+        networks: ["common"]
+
+networks:
+    common:
 
