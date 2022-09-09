@@ -30,13 +30,11 @@ function prune_and_compact() {
 # $1 archive
 # $2 client archives
 function is_archive_present() {
-    for ARCHIVE in $2; do
-        if [[ $ARCHIVE == $1 ]]; then
-            echo "$1 is present"
+    for CLIENT_ARCHIVE in $2; do
+        if [[ $CLIENT_ARCHIVE == $1 ]]; then
             return 0
         fi
     done
-            echo "$1 is not present"
     return 1
 }
 
@@ -65,6 +63,7 @@ function backup_repo() {
     echo "found client archives:"
     echo $CLIENT_ARCHIVES
 
+    # pull required archives
     for ARCHIVE in $SERVER_ARCHIVES; do
         if is_archive_present $ARCHIVE "$CLIENT_ARCHIVES"; then
             echo "archive '$ARCHIVE' from '$1' is already present on client"
