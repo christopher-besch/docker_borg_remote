@@ -11,7 +11,18 @@ function pull_archive() {
     rm -rf /origin
     mkdir /origin
     cd /origin
+
     borg extract --rsh "$RSH" $1
+
+    # borg on server already creates an origin directory
+    if [ ! -z ${DEL_ORIGIN_DIR+x} ]; then
+        echo "remove origin dir"
+        mv origin/* .
+        rm -d origin
+    else
+        echo "don't remove origin dir"
+    fi
+
     borg create --error --compression $BORG_COMPRESSION "$2" /origin
 }
 

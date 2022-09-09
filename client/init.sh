@@ -5,20 +5,17 @@ IFS=$' \n\t'
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 echo "init at $(date)"
-# save borg server fingerprint
-ssh-keyscan -H $BORG_SERVER  >> /root/.ssh/known_hosts
 # save passphrase
 eval "$(ssh-agent -s)"
 DISPLAY=":0.0" SSH_ASKPASS="/var/lib/borg_client/echo_passphrase.sh" setsid ssh-add /var/lib/borg_client/priv_key </dev/null
 
 export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
-export RSH="ssh -i /var/lib/borg_client/priv_key -p ${PORT}"
+export RSH="ssh -i /var/lib/borg_client/priv_key -o 'StrictHostKeyChecking no' -p ${PORT}"
 
 # call script when receiving SIGHUP
 # set -e exits script after trap
 set +e
-# ensure containers are started
-trap 'bash "/var/lib/borg_client/borg_client.sh" || echo "borg_backup.sh failed"' HUP
+trap 'bash "/var/lib/borg_client/borg_client.sh" || echo "borg_client.sh failed"' HUP
 
 # await SIGHUP
 while :; do

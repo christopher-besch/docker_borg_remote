@@ -4,10 +4,10 @@ services:
     BorgServer:
         image: chrisbesch/docker_borg_server
         volumes:
+            - "./authorized_keys:/var/lib/borg_server/authorized_keys:ro"
             # all repos shall be mounted into subdirs of /var/lib/borg_server/repos
             - "./borg_repo1:/var/lib/borg_server/repos/borg_repo1"
             - "./borg_repo2:/var/lib/borg_server/repos/borg_repo2"
-            - "./authorized_keys:/var/lib/borg_server/authorized_keys:ro"
         networks: ["common"]
     BorgClient:
         image: chrisbesch/docker_borg_client
@@ -27,7 +27,9 @@ services:
             # leave empty to not prune
             # make sure that this matches or exceeds the servers settings
             # otherwise the client would delete and recreate the same archive over and over
-            - "PRUNE_CFG=--keep-last 3"
+            # - "PRUNE_CFG=--keep-last 3"
+            # borg on server already creates an origin directory
+            # - DEL_ORIGIN_DIR=true
         depends_on:
             - BorgServer
         networks: ["common"]
