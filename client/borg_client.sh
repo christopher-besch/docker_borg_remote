@@ -7,10 +7,10 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 # $1 server repo::archive
 # $2 client repo::archive
 function pull_archive() {
-    cd /
-    rm -rf /origin
-    mkdir /origin
+    # in case temp dir hasn't been mounted with docker
+    mkdir -p /origin
     cd /origin
+    rm -rf /origin/*
 
     borg extract --rsh "$RSH" $1
 
