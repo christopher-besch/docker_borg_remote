@@ -16,9 +16,13 @@ function pull_archive() {
 
     # borg on server already creates an origin directory
     if [ ! -z ${DEL_ORIGIN_DIR+x} ]; then
-        echo "remove origin dir"
-        mv origin/* .
-        rm -d origin
+        if [ -d /origin/origin ]; then
+            echo "remove origin dir"
+            mv origin/* .
+            rm -d origin
+        else
+            echo "Error trying to remove origin dir failed because it doesn't exist"
+        fi
     else
         echo "don't remove origin dir"
     fi
