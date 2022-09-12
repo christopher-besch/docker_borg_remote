@@ -23,7 +23,7 @@ function pull_archive() {
         echo "don't remove origin dir"
     fi
 
-    borg create --error --compression $BORG_COMPRESSION "$2" /origin
+    borg create --info --compression $BORG_COMPRESSION "$2" /origin
 }
 
 function prune_and_compact() {
