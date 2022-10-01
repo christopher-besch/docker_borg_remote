@@ -30,11 +30,22 @@ services:
             # make sure that this matches or exceeds the servers settings
             # otherwise the client would delete and recreate the same archive over and over
             # - "PRUNE_CFG=--keep-last 3"
-            # borg on server already creates an origin directory
+            # if borg on server already creates an origin directory
             # - DEL_ORIGIN_DIR=true
+
+            # when to run backup <- requires chrisbesch/docker_cron
+            # runs every minute
+            - "CRON_TIME=* * * * *"
         depends_on:
             - BorgServer
         networks: ["common"]
+
+    DockerCron:
+        image: chrisbesch/docker_cron
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:rw"
+        environment:
+            - TZ=Europe/Berlin
 
 networks:
     common:

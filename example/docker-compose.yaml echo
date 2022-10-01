@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+Server:
+hrisbesch/docker_borg_server
+
+zed_keys:/var/lib/borg_server/authorized_keys:ro"
+shall be mounted into subdirs of /var/lib/borg_server/repos
+d be read only
+po1:/var/lib/borg_server/repos/borg_repo1:ro"
+po2:/var/lib/borg_server/repos/borg_repo2:ro"
+: ["common"]
+Client:
+hrisbesch/docker_borg_client
+
+y:/var/lib/borg_client/priv_key:ro"
+s in /var/lib/borg_client/repos get pulled from the server
+po1_out:/var/lib/borg_client/repos/borg_repo1"
+po2_out:/var/lib/borg_client/repos/borg_repo2"
+dir where to pull archives into
+rigin"
+ent:
+R=BorgServer
+
+            - PASSPHRASE=test_passphrase
+
+//borgbackup.readthedocs.io/en/stable/internals/data-structures.html?highlight=compression#compression
+ESSION=zstd,22
+://borgbackup.readthedocs.io/en/stable/usage/prune.html
+y to not prune
+that this matches or exceeds the servers settings
+the client would delete and recreate the same archive over and over
+FG=--keep-last 3"
+rver already creates an origin directory
+IN_DIR=true
+on:
+
+        networks: ["common"]
+
+networks:
+    common:
+

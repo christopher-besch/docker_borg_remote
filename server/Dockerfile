@@ -1,7 +1,7 @@
-FROM "ubuntu"
-
+FROM "chrisbesch/borg2"
 RUN apt-get update && \
-    apt-get install -y borgbackup openssh-server
+    apt-get install -y openssh-server
+
 RUN mkdir -p /var/run/sshd /root/.ssh && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
