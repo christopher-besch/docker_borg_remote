@@ -6,7 +6,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 function prune_and_compact() {
     if [ ! -z ${PRUNE_CFG+x} ]; then
-        echo "running: borg prune $PRUNE_CFG $1"
+        echo "running: borg -r $1 prune $PRUNE_CFG"
         borg -r $1 prune $PRUNE_CFG
     else
         echo "PRUNE_CFG not defined"
