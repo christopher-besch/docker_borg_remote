@@ -13,11 +13,12 @@ export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
 export RSH="ssh -i /var/lib/borg_client/priv_key -o 'StrictHostKeyChecking no' -p ${PORT}"
 
 for REPO in $(ls /var/lib/borg_client/repos/); do
-    if [ -z "$(ls -A $REPO)" ]; then
-       echo "$REPO is empty, creating borg repo"
-       borg -r $REPO rcreate --encryption=none
+    CLIENT_REPO="/var/lib/borg_client/repos/$1"
+    if [ -z "$(ls -A $CLIENT_REPO)" ]; then
+       echo "$CLIENT_REPO is empty, creating borg repo"
+       borg -r $CLIENT_REPO rcreate --encryption=none
     else
-        echo "$REPO is not empty"
+        echo "$CLIENT_REPO is not empty"
     fi
 done
 
