@@ -33,9 +33,9 @@ function backup_repo() {
     fi
     echo "borg client repo '$1' valid"
 
-    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO --dry-run
-    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO
-    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO --dry-run
+    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO --dry-run --rsh "$RSH"
+    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO --rsh "$RSH"
+    borg -r $CLIENT_REPO transfer --other-repo $SERVER_REPO --dry-run --rsh "$RSH"
 
     prune_and_compact $CLIENT_REPO
 
