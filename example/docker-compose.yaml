@@ -16,8 +16,6 @@ services:
             # all subdirs in /var/lib/borg_client/repos get pulled from the server
             - "./borg_repo1_out:/var/lib/borg_client/repos/borg_repo1"
             - "./borg_repo2_out:/var/lib/borg_client/repos/borg_repo2"
-            # temporary dir where to pull archives into
-            - "./temp:/origin"
         environment:
             - BORG_SERVER=BorgServer
             - PORT=22
